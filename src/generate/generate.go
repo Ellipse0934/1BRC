@@ -44,29 +44,6 @@ func ParseGen(s string) (NameGen) {
     }
 }
 
-/*
-    Generate a list of station names and temperature values
-
-    >  Each row is one measurement in the format <string: station name>;<double: measurement>, with the measurement value having exactly one fractional digit.
-
-    Example
-    ```
-    Hamburg;12.0
-    Bulawayo;8.9
-    Palembang;38.8
-    St. John's;15.2
-    Cracow;12.6
-    Bridgetown;26.9
-    Istanbul;6.2
-    Roseau;34.4
-    Conakry;31.2
-    Istanbul;23.0
-    ```
-    //TODO:
-    - Use a predefined list of real cities
-    - Configure filesize
-    - Pass random generator as a plugin
-*/
 var charsetBasic = []rune("abcdefghijklmnopqrstuvwxyz")
 
 func randstring(r *rand.Rand, length int) string {
@@ -100,9 +77,6 @@ func generate(seed int64, ncities int, nsamples int) {
     }
 }
 
-func X() {
-    generate(0, 10, 10)
-}
 func GenerateReal(rows int,w io.Writer) {
     s := make([]byte, 10)
     for i := 0; i < 10; i++ {
@@ -186,7 +160,7 @@ func Generate(nrows int,nstations int, s NameGen, w io.Writer) {
         line = append(line, ';')
         line = strconv.AppendInt(line, int64(t / 10), 10)
         line = append(line, '.')
-        line = strconv.AppendInt(line, int64(t % 10), 10)
+        line = strconv.AppendInt(line, math.Abs(int64(t % 10), 10))
         line = append(line, '\n')
         w.Write(line)
         //fmt.Fprintf(w, "%s;%0.1f\n", st.name, float64(t) / 10.0)
